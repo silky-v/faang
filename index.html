@@ -66,6 +66,8 @@ header {
   font-weight: bold;
   position: relative;
   z-index: 2;
+  white-space: nowrap; /* prevent wrapping on mobile */
+  overflow: hidden;
 }
 
 .spin span {
@@ -268,9 +270,10 @@ footer {
   width: 100%;
 }
 
-/* Mobile */
+/* Mobile Adjustments */
 @media(max-width:576px){
-  .profile-pic{width:110px;height:110px;}
+  .profile-pic { width: 110px; height: 110px; }
+  .spin { font-size: 1.6rem; } /* responsive header name */
   .card-container { gap: 15px; }
   .card { min-width: 90%; max-width: 95%; }
 }
