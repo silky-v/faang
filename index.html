@@ -4,321 +4,248 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jason Hoyle — Portfolio</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-body{
-  background:#e6eef7;
-  margin:0;
-  font-family:Arial,sans-serif;
-  overflow-x:hidden;
-  color:#333;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background: #e6eef7;
+  color: #333;
 }
+
+/* Wrapper for sticky footer */
+.wrapper { display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1; }
 
 /* Header */
-header{
-  position:relative;
-  background:#0059b3;
-  color:white;
-  padding-top:140px;
-  padding-bottom:100px;
-  text-align:center;
-  overflow:hidden;
+header {
+  position: relative;
+  background: #0059b3;
+  color: white;
+  padding-top: 140px;
+  padding-bottom: 140px;
+  text-align: center;
+  overflow: hidden;
 }
-#headerCanvas{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index:1;
-}
-.profile-pic{
-  width:150px;
-  height:150px;
-  object-fit:cover;
-  border-radius:50%;
-  border:4px solid white;
-  box-shadow:0 8px 20px rgba(0,0,0,0.4);
-  position:relative;
-  z-index:2;
-  margin-bottom:15px;
-}
-.spin{
-  display:inline-block;
-  font-size:2.4rem;
-  font-weight:bold;
-  position:relative;
-  z-index:2;
-  color:white;
-}
-.spin span{
-  display:inline-block;
-  animation:spinLetter 6s linear infinite;
-}
-@keyframes spinLetter{
-  0%{transform:rotateY(0deg);}
-  50%{transform:rotateY(12deg);}
-  100%{transform:rotateY(0deg);}
-}
-.scroll{
-  position:relative;
-  margin-top:15px;
-  z-index:2;
-  white-space:nowrap;
-  overflow:hidden;
-}
-.scroll span{
-  display:inline-block;
-  padding-left:100%;
-  animation:scrollText 20s linear infinite;
-}
-@keyframes scrollText{
-  from{transform:translateX(0);}
-  to{transform:translateX(-100%);}
-}
+#headerCanvas { position: absolute; top:0; left:0; width:100%; height:100%; z-index:1; }
+.profile-pic { width:150px; height:150px; object-fit:cover; border-radius:50%; border:4px solid white; box-shadow:0 8px 20px rgba(0,0,0,0.4); position:relative; z-index:2; margin-bottom:15px; }
+.spin { display:inline-block; font-size:2.4rem; font-weight:bold; position:relative; z-index:2; white-space:nowrap; overflow:hidden; }
+.spin span { display:inline-block; animation: spinLetter 6s linear infinite; }
+@keyframes spinLetter { 0%{transform:rotateY(0deg);} 50%{transform:rotateY(12deg);} 100%{transform:rotateY(0deg);} }
+.scroll { position:relative; margin-top:15px; z-index:2; white-space:nowrap; overflow:hidden; }
+.scroll span { display:inline-block; padding-left:100%; animation:scrollText 20s linear infinite; }
+@keyframes scrollText { from{transform:translateX(0);} to{transform:translateX(-100%);} }
+
+/* Navbar */
+.navbar-nav li { margin:0.5rem 0; }
+@media(min-width:992px) { .navbar-nav li { margin:0 0.5rem; } }
 
 /* Sections */
-.card-section{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  max-width:1000px;
-  margin:0 auto 50px auto;
-}
-.card-container{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:20px;
-}
-.card{
-  background:white;
-  padding:20px 25px;
-  border-radius:12px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.1);
-  min-width:250px;
-  text-align:center;
-}
-.section-title{
-  font-size:2rem;
-  font-weight:bold;
-  color:#0059b3;
-  margin-bottom:20px;
-}
+.card-section { display:flex; flex-direction:column; align-items:center; max-width:1000px; margin:0 auto 50px auto; }
+.card-container { display:flex; flex-wrap:wrap; justify-content:center; gap:25px; }
+.card { background:white; padding:25px; border-radius:15px; box-shadow:0 8px 25px rgba(0,0,0,0.1); min-width:250px; max-width:300px; text-align:center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card:hover { transform:translateY(-8px); box-shadow:0 12px 35px rgba(0,0,0,0.15); }
+.card h5 { color:#0059b3; font-weight:bold; margin-bottom:10px; }
+.card p { color:#555; font-size:0.95rem; line-height:1.4; }
 
 /* Skill bars */
-.bar{
-  background:#ddd;
-  border-radius:12px;
-  overflow:hidden;
-  height:18px;
-  margin-top:8px;
-}
-.fill{
-  background:#0059b3;
-  height:100%;
-  width:0%;
-  transition:2s;
-}
+.bar { background:#ddd; border-radius:12px; overflow:hidden; height:18px; margin-top:8px; }
+.fill { background:#0059b3; height:100%; width:0%; transition:2s; }
 
 /* Tech icons */
-.tech{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-.tech img{
-  width:60px;
-  height:60px;
-  object-fit:contain;
-}
+.tech { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; }
+.tech img { width:60px; height:60px; }
 
 /* Achievements */
-.achievement-card{
-  display:flex;
-  align-items:center;
-  gap:25px;
-  text-align:left;
-  padding:25px;
-  max-width:650px;
-}
-.achievement-badge{
-  min-width:80px;
-  height:80px;
-  border-radius:50%;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 6px 18px rgba(0,0,0,0.15);
-  cursor:pointer;
-}
-.achievement-badge img{
-  width:45px;
-}
+.achievement-card { display:flex; align-items:center; gap:25px; text-align:left; padding:25px; max-width:650px; }
+.achievement-badge { min-width:80px; height:80px; border-radius:50%; background:white; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,0.15); transition: transform 0.3s ease; }
+.achievement-badge:hover { transform:scale(1.1); }
+.achievement-badge img { width:45px; }
 
-/* Email box */
-.email-section{
-  display:flex;
-  justify-content:center;
-  margin:50px 0;
-  width:100%;
-}
-.floating-email{
-  position:relative;
-  width:100%;
-  max-width:600px;
-}
-.floating-email input{
-  width:100%;
-  padding:20px 15px 15px 15px;
-  border-radius:12px;
-  border:none;
-  outline:none;
-  font-size:1rem;
-  box-shadow:0 4px 15px rgba(0,0,0,0.15);
-  transition:0.3s;
-}
-.floating-email input:focus{
-  box-shadow:0 0 10px #ffd700;
-}
-.floating-email label{
-  position:absolute;
-  left:15px;
-  top:18px;
-  color:#666;
-  pointer-events:none;
-  transition:0.3s;
-  background:#e6eef7;
-  padding:0 5px;
-  font-weight:bold;
-}
-.floating-email input:focus + label,
-.floating-email input:not(:placeholder-shown) + label{
-  top:-10px;
-  font-size:0.85rem;
-  color:#0059b3;
-}
-.floating-email button{
-  margin-top:15px;
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:12px;
-  font-weight:bold;
-  background:#ffd700;
-  color:#0059b3;
-  cursor:pointer;
-  transition:0.3s;
-}
-.floating-email button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #ffd700;
-}
+/* Contact Section */
+#contact { background:#e6eef7; padding:60px 20px; text-align:center; }
+#contact h2 { font-size:2rem; color:#0059b3; margin-bottom:20px; font-weight:bold; }
+#contact p { font-size:1.1rem; margin-bottom:30px; color:#333; }
 
-footer{
-  background:#0059b3;
-  color:white;
-  text-align:center;
-  padding:15px;
+.contact-form { max-width:500px; margin:0 auto; text-align:left; }
+.contact-form input,
+.contact-form textarea {
+  width:100%; padding:15px; margin-bottom:15px; border-radius:12px; border:none; background:white; font-size:1rem; transition: all 0.3s ease; box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
+.contact-form input:focus,
+.contact-form textarea:focus { border:1px solid #0059b3; box-shadow:0 6px 18px rgba(0,89,179,0.3); outline:none; }
+.contact-form button { background:#0059b3; color:white; border:none; padding:15px 30px; font-size:1.1rem; border-radius:12px; cursor:pointer; transition:all 0.3s ease; }
+.contact-form button:hover { background:#004080; transform:translateY(-2px); }
+.contact-form button:active { transform:translateY(0); }
 
-/* Mobile */
+/* Footer */
+footer { background:#0059b3; color:white; text-align:center; padding:15px; width:100%; }
+
+/* Mobile Adjustments */
 @media(max-width:576px){
-  .profile-pic{width:110px;height:110px;}
+  .profile-pic { width:110px; height:110px; }
+  .spin { font-size:1.6rem; }
+  .card-container { gap:15px; }
+  .card { min-width:90%; max-width:95%; }
 }
 </style>
 </head>
 
 <body>
+<div class="wrapper">
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-<div class="container-fluid">
-<a class="navbar-brand" href="#">Jason Hoyle</a>
-<div>
-<ul class="navbar-nav me-auto flex-row gap-3">
-<li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-<li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-<li class="nav-item"><a class="nav-link" href="speed-typing.html">Speed Typing Test</a></li>
-<li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-</ul>
-</div>
-</div>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Jason Hoyle</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="#system-design">System Design</a></li>
+        <li class="nav-item"><a class="nav-link" href="speed-typing.html">Speed Typing Test</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>
 
+<!-- Header -->
 <header>
-<canvas id="headerCanvas"></canvas>
-<img src="profile.jpg" class="profile-pic">
-<h1 class="spin" id="spinName"></h1>
-<div class="scroll">
-<span>Building scalable systems • Algorithms • Distributed Systems • Leadership Principles</span>
-</div>
+  <canvas id="headerCanvas"></canvas>
+  <img src="profile.jpg" class="profile-pic">
+  <h1 class="spin" id="spinName"></h1>
+  <div class="scroll">
+    <span>Building scalable systems • Algorithms • Distributed Systems • Leadership Principles</span>
+  </div>
 </header>
 
 <main class="container my-5">
-
 <p id="typing" class="lead text-center mb-4"></p>
 
-<!-- Skills -->
+<!-- Skills Section -->
 <section class="card-section">
-<h2 class="section-title">Skill Set</h2>
-<div class="card-container">
-<div class="card">Python<div class="bar"><div class="fill" data-width="90%"></div></div></div>
-<div class="card">Java<div class="bar"><div class="fill" data-width="78%"></div></div></div>
-<div class="card">C++<div class="bar"><div class="fill" data-width="95%"></div></div></div>
-<div class="card">JavaScript<div class="bar"><div class="fill" data-width="85%"></div></div></div>
-<div class="card">Golang<div class="bar"><div class="fill" data-width="80%"></div></div></div>
-<div class="card">React<div class="bar"><div class="fill" data-width="85%"></div></div></div>
-</div>
+  <h2 class="section-title">Skill Set</h2>
+  <div class="card-container">
+    <div class="card">Python<div class="bar"><div class="fill" data-width="90%"></div></div></div>
+    <div class="card">Java<div class="bar"><div class="fill" data-width="78%"></div></div></div>
+    <div class="card">C++<div class="bar"><div class="fill" data-width="95%"></div></div></div>
+    <div class="card">JavaScript<div class="bar"><div class="fill" data-width="85%"></div></div></div>
+    <div class="card">Golang<div class="bar"><div class="fill" data-width="80%"></div></div></div>
+    <div class="card">React<div class="bar"><div class="fill" data-width="85%"></div></div></div>
+  </div>
 </section>
 
 <!-- Tech Stack -->
 <section class="card-section">
-<h2 class="section-title">Tech Stack</h2>
-<div class="tech">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg">
-</div>
+  <h2 class="section-title">Tech Stack</h2>
+  <div class="tech">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg">
+  </div>
 </section>
 
 <!-- Achievements -->
 <section class="card-section">
-<h2 class="section-title">Achievements</h2>
-<div class="card achievement-card">
-<a href="https://leetcode.com/YOUR_LEETCODE_USERNAME/" target="_blank">
-<div class="achievement-badge">
-<img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png">
-</div>
-</a>
-<div>
-<h4>1000+ Problems Solved</h4>
-<p>Advanced mastery of algorithms and data structures demonstrated through extensive competitive programming.</p>
-</div>
-</div>
+  <h2 class="section-title">Achievements</h2>
+  <div class="card achievement-card">
+    <div class="achievement-badge">
+      <a href="https://leetcode.com/u/silkyv/" target="_blank" title="View my LeetCode profile">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png">
+      </a>
+    </div>
+    <div>
+      <h4>1000+ Problems Solved</h4>
+      <p>Advanced mastery of algorithms and data structures demonstrated through extensive competitive programming and technical interview preparation.</p>
+    </div>
+  </div>
 </section>
 
-<!-- Email Box -->
-<section class="email-section">
-<div class="floating-email">
-<input type="email" placeholder=" " id="emailInput">
-<label for="emailInput">Your Email Address</label>
-<button onclick="alert('Thank you! I will get back to you.')">Send</button>
-</div>
+<!-- Projects Section -->
+<section class="card-section" id="projects">
+  <h2 class="section-title">Projects</h2>
+  <div class="card-container">
+    <div class="card">
+      <h5>Real-Time Chat App</h5>
+      <p>Built with React & Node.js, supporting 500+ concurrent users using WebSockets.</p>
+    </div>
+    <div class="card">
+      <h5>Portfolio Website</h5>
+      <p>Interactive, responsive site showcasing projects, skills, and achievements.</p>
+    </div>
+    <div class="card">
+      <h5>Automation Tool</h5>
+      <p>Python-based CLI tool that automates repetitive tasks, improving workflow efficiency.</p>
+    </div>
+    <div class="card">
+      <h5>Distributed System Demo</h5>
+      <p>Designed a mini distributed system to demonstrate load balancing and fault tolerance.</p>
+    </div>
+  </div>
 </section>
 
-<footer>
-© 2026 Jason Hoyle — Software Engineer Portfolio
-</footer>
+<!-- System Design Section -->
+<section class="card-section" id="system-design">
+  <h2 class="section-title">System Design / Architecture</h2>
+  <div class="card-container">
+    <div class="card">
+      <h5>Scalable Messaging Platform</h5>
+      <p>Designed architecture for high-availability messaging with horizontal scaling.</p>
+    </div>
+    <div class="card">
+      <h5>E-commerce Backend</h5>
+      <p>Microservices architecture demonstrating caching, queuing, and database sharding.</p>
+    </div>
+  </div>
+</section>
 
+<!-- Contact Section -->
+<section id="contact">
+  <h2>Contact Me</h2>
+  <p>I'm always open to exciting opportunities and collaborations. Drop me a message and let's connect!</p>
+  <form class="contact-form" id="contact-form">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+</main>
+
+<footer>© 2026 Jason Hoyle — Software Engineer Portfolio</footer>
+</div>
+
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-// Spinning Name
+emailjs.init("YOUR_PUBLIC_KEY"); // <-- replace with your EmailJS public key
+
+document.getElementById("contact-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+  emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+    .then(() => { alert("Message sent!"); this.reset(); }, 
+          (err) => { alert("Error sending message: " + JSON.stringify(err)); });
+});
+</script>
+
+<!-- Header animation -->
+<script>
 const txt="Jason Hoyle — Software Engineer";
 txt.split("").forEach((l,i)=>{
   let s=document.createElement("span");
@@ -326,53 +253,30 @@ txt.split("").forEach((l,i)=>{
   s.style.animationDelay=(i*0.1)+"s";
   spinName.appendChild(s);
 });
-
-// Typing Intro
 const intro="Hello! I'm Jason Hoyle, passionate about scalable systems, algorithms, and engineering excellence.";
 let k=0;
 function type(){ if(k<intro.length){ typing.innerHTML+=intro[k++]; setTimeout(type,20);} }
 type();
+window.onload=()=>{ document.querySelectorAll(".fill").forEach(e=>e.style.width=e.dataset.width); }
 
-// Skills animation
-window.onload=()=>{
-  document.querySelectorAll(".fill").forEach(e=>e.style.width=e.dataset.width);
-}
-
-// Spider + Snow Animation
-const c=document.getElementById("headerCanvas");
-const ctx=c.getContext("2d");
-function resize(){ c.width=c.offsetWidth; c.height=c.offsetHeight;}
+/* Spider + Snow Animation */
+const c=document.getElementById("headerCanvas"); const ctx=c.getContext("2d");
+function resize(){ c.width=c.offsetWidth; c.height=c.offsetHeight; }
 window.addEventListener("resize",resize); resize();
-
 let p=[], snow=[];
 for(let i=0;i<50;i++) p.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5),vy:(Math.random()-.5)});
 for(let i=0;i<100;i++) snow.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*3+1,s:Math.random()*1+.3});
-
-function draw(){
-ctx.clearRect(0,0,c.width,c.height);
-for(let i=0;i<p.length;i++){
-  let a=p[i];
-  ctx.beginPath(); ctx.arc(a.x,a.y,3,0,Math.PI*2); ctx.fillStyle="#00bfff"; ctx.fill();
-  a.x+=a.vx; a.y+=a.vy;
-  if(a.x<0||a.x>c.width) a.vx*=-1;
-  if(a.y<0||a.y>c.height) a.vy*=-1;
-  for(let j=i+1;j<p.length;j++){
-    let b=p[j];
-    let d=Math.hypot(a.x-b.x,a.y-b.y);
-    if(d<100){
-      ctx.strokeStyle="rgba(0,191,255,"+(1-d/100)+")";
-      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-    }
-  }
-}
-snow.forEach(f=>{
-  ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fillStyle="white"; ctx.fill();
-  f.y+=f.s;
-  if(f.y>c.height){ f.y=-5; f.x=Math.random()*c.width;}
-});
-requestAnimationFrame(draw);
-}
+function draw(){ ctx.clearRect(0,0,c.width,c.height);
+p.forEach((a,i)=>{ ctx.beginPath(); ctx.arc(a.x,a.y,3,0,6.28); ctx.fillStyle="#00bfff"; ctx.fill();
+a.x+=a.vx; a.y+=a.vy;
+if(a.x<0||a.x>c.width)a.vx*=-1;
+if(a.y<0||a.y>c.height)a.vy*=-1;
+for(let j=i+1;j<p.length;j++){ let b=p[j]; let d=Math.hypot(a.x-b.x,a.y-b.y);
+if(d<100){ ctx.strokeStyle="rgba(0,191,255,"+(1-d/100)+")"; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); } } });
+snow.forEach(f=>{ ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,6.28); ctx.fillStyle="white"; ctx.fill(); f.y+=f.s; if(f.y>c.height){ f.y=-5; f.x=Math.random()*c.width; } });
+requestAnimationFrame(draw); }
 draw();
 </script>
+
 </body>
 </html>
