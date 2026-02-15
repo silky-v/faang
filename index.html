@@ -158,13 +158,63 @@ header{
   width:45px;
 }
 
-/* Make badge fully tappable */
-.badge-link{
-  display:block;
-  touch-action:manipulation;
+/* Stylish floating email box */
+.email-section{
+  display:flex;
+  justify-content:center;
+  margin:50px 0;
+  width:100%;
 }
-.badge-link:active{
-  transform:scale(0.96);
+.floating-email{
+  position:relative;
+  width:100%;
+  max-width:600px;
+}
+.floating-email input{
+  width:100%;
+  padding:20px 15px 15px 15px;
+  border-radius:12px;
+  border:none;
+  outline:none;
+  font-size:1rem;
+  box-shadow:0 4px 15px rgba(0,0,0,0.15);
+  transition:0.3s;
+}
+.floating-email input:focus{
+  box-shadow:0 0 10px #ffd700;
+}
+.floating-email label{
+  position:absolute;
+  left:15px;
+  top:18px;
+  color:#666;
+  pointer-events:none;
+  transition:0.3s;
+  background:#e6eef7;
+  padding:0 5px;
+  font-weight:bold;
+}
+.floating-email input:focus + label,
+.floating-email input:not(:placeholder-shown) + label{
+  top:-10px;
+  font-size:0.85rem;
+  color:#0059b3;
+}
+.floating-email button{
+  margin-top:15px;
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  font-weight:bold;
+  background:#ffd700;
+  color:#0059b3;
+  cursor:pointer;
+  transition:0.3s;
+}
+.floating-email button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px #ffd700;
 }
 
 footer{
@@ -207,6 +257,7 @@ footer{
 </header>
 
 <main class="container my-5">
+
 <p id="typing" class="lead text-center mb-4"></p>
 
 <!-- Skills -->
@@ -240,29 +291,24 @@ footer{
 <h2 class="section-title">Achievements</h2>
 
 <div class="card achievement-card">
-<a href="https://leetcode.com/YOUR_USERNAME/" target="_blank" class="badge-link">
+<a href="https://leetcode.com/YOUR_LEETCODE_USERNAME/" target="_blank">
 <div class="achievement-badge">
 <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png">
 </div>
 </a>
-
 <div>
 <h4>1000+ Problems Solved</h4>
-<p>
-Advanced mastery of algorithms and data structures demonstrated through extensive competitive programming.
-</p>
+<p>Advanced mastery of algorithms and data structures demonstrated through extensive competitive programming.</p>
 </div>
 </div>
 </section>
 
 <!-- Stylish Email Box -->
 <section class="email-section">
-<div class="email-box">
-<h4 style="flex:1; margin:0;">Contact Me Directly</h4>
-<input type="email" placeholder="Your Email Address" style="flex:2; padding:10px 15px; border-radius:12px; border:none; outline:none; font-size:1rem;">
-<button style="flex:1; padding:10px 15px; border:none; border-radius:12px; background:#ffd700; color:#0059b3; font-weight:bold; cursor:pointer; transition:0.2s;">
-Send
-</button>
+<div class="floating-email">
+<input type="email" placeholder=" " id="emailInput">
+<label for="emailInput">Your Email Address</label>
+<button onclick="alert('Thank you! I will get back to you.')">Send</button>
 </div>
 </section>
 
@@ -288,15 +334,14 @@ let k=0;
 function type(){ if(k<intro.length){ typing.innerHTML+=intro[k++]; setTimeout(type,20);} }
 type();
 
-// Skill bars
+// Skills animation
 window.onload=()=>{
   document.querySelectorAll(".fill").forEach(e=>e.style.width=e.dataset.width);
 }
 
-/* Spider + Snow Animation */
+// Spider + Snow Animation
 const c=document.getElementById("headerCanvas");
 const ctx=c.getContext("2d");
-
 function resize(){ c.width=c.offsetWidth; c.height=c.offsetHeight;}
 window.addEventListener("resize",resize); resize();
 
@@ -306,34 +351,29 @@ for(let i=0;i<100;i++) snow.push({x:Math.random()*c.width,y:Math.random()*c.heig
 
 function draw(){
 ctx.clearRect(0,0,c.width,c.height);
-
 for(let i=0;i<p.length;i++){
-let a=p[i];
-ctx.beginPath(); ctx.arc(a.x,a.y,3,0,Math.PI*2); ctx.fillStyle="#00bfff"; ctx.fill();
-a.x+=a.vx; a.y+=a.vy;
-if(a.x<0||a.x>c.width)a.vx*=-1;
-if(a.y<0||a.y>c.height)a.vy*=-1;
-
-for(let j=i+1;j<p.length;j++){
-let b=p[j];
-let d=Math.hypot(a.x-b.x,a.y-b.y);
-if(d<100){
-ctx.strokeStyle="rgba(0,191,255,"+(1-d/100)+")";
-ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+  let a=p[i];
+  ctx.beginPath(); ctx.arc(a.x,a.y,3,0,Math.PI*2); ctx.fillStyle="#00bfff"; ctx.fill();
+  a.x+=a.vx; a.y+=a.vy;
+  if(a.x<0||a.x>c.width) a.vx*=-1;
+  if(a.y<0||a.y>c.height) a.vy*=-1;
+  for(let j=i+1;j<p.length;j++){
+    let b=p[j];
+    let d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(d<100){
+      ctx.strokeStyle="rgba(0,191,255,"+(1-d/100)+")";
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    }
+  }
 }
-}
-}
-
 snow.forEach(f=>{
-ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fillStyle="white"; ctx.fill();
-f.y+=f.s;
-if(f.y>c.height){ f.y=-5; f.x=Math.random()*c.width;}
+  ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fillStyle="white"; ctx.fill();
+  f.y+=f.s;
+  if(f.y>c.height){ f.y=-5; f.x=Math.random()*c.width;}
 });
-
 requestAnimationFrame(draw);
 }
 draw();
 </script>
-
 </body>
 </html>
