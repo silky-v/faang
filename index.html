@@ -100,6 +100,17 @@ header {
   to { transform: translateX(-100%); }
 }
 
+/* Navbar adjustments */
+.navbar-nav li {
+  margin: 0.5rem 0; /* spacing between links on mobile */
+}
+
+@media(min-width:992px) {
+  .navbar-nav li {
+    margin: 0 0.5rem; /* spacing on desktop */
+  }
+}
+
 /* Sections */
 .card-section {
   display: flex;
@@ -282,11 +293,17 @@ footer {
 
 <body>
 <div class="wrapper">
+
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Jason Hoyle</a>
-      <div>
-        <ul class="navbar-nav me-auto flex-row gap-3">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto text-center">
           <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
           <li class="nav-item"><a class="nav-link" href="#system-design">System Design</a></li>
@@ -297,6 +314,7 @@ footer {
     </div>
   </nav>
 
+  <!-- Header -->
   <header>
     <canvas id="headerCanvas"></canvas>
     <img src="profile.jpg" class="profile-pic">
@@ -405,6 +423,9 @@ footer {
     © 2026 Jason Hoyle — Software Engineer Portfolio
   </footer>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 const txt="Jason Hoyle — Software Engineer";
