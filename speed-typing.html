@@ -3,235 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Speed Typing Test — Jason Hoyle</title>
+<title>Speed Typing — Jason Hoyle</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <style>
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #e6eef7;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Wrapper */
-.wrapper { display: flex; flex-direction: column; min-height: 100vh; }
-main { flex: 1; }
-
-/* Navbar */
-.navbar { z-index: 10; }
-.navbar-nav li { margin:0.5rem 0; }
-@media(min-width:992px) { .navbar-nav li { margin:0 0.5rem; } }
+html,body{height:100%;margin:0;background:#e6eef7;font-family:Arial;}
+.wrapper{min-height:100vh;display:flex;flex-direction:column;}
+main{flex:1}
 
 /* Header */
-header{
-  position: relative;
-  background:#0059b3;
-  color:white;
-  text-align:center;
-  height:300px; 
-  flex-shrink: 0;
-}
-#headerCanvas{
-  position: absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index:0;
-}
-header .header-content {
-  position: relative;
-  z-index: 2;
-  padding-top: 50px;
-}
-header h1{
-  font-size:2.5rem;
-  font-weight:bold;
-}
-header p{
-  font-size:1.2rem;
-}
+header{background:#0059b3;color:white;height:280px;position:relative;text-align:center}
+#headerCanvas{position:absolute;width:100%;height:100%}
+.header-content{position:relative;z-index:2;padding-top:60px}
 
-/* Main content */
-main {
-  flex: 1 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 30px 15px 50px 15px;
-}
-.card-section {
-  width: 100%;
-  max-width: 900px;
-}
-.card{
-  background:white;
-  padding:20px 25px;
-  border-radius:12px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.1);
-  margin-bottom:20px;
-}
-#typingArea{
-  width:100%;
-  min-height:150px;
-  padding:10px;
-  font-size:1.1rem;
-  border:1px solid #ccc;
-  border-radius:8px;
-  margin-bottom:15px;
-}
-#timer{
-  font-weight:bold;
-  font-size:1.2rem;
-}
-button{
-  margin-left:10px;
-}
+/* Card */
+.card{padding:25px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.1)}
+textarea{width:100%;min-height:150px;border-radius:8px;padding:10px}
+
+/* Leaderboard */
+.leaderboard{background:#f7fbff;padding:15px;border-radius:10px;margin-top:20px}
+.leaderboard li{padding:6px 0;border-bottom:1px solid #ddd}
+
+/* Medals */
+.gold{color:#d4af37;font-weight:bold}
+.silver{color:#aaa}
+.bronze{color:#cd7f32}
 
 /* Footer */
-footer{
-  background:#0059b3;
-  color:white;
-  text-align:center;
-  padding:15px;
-  flex-shrink: 0;
-}
-
-/* Mobile */
-@media(max-width:576px){
-  header h1{font-size:1.8rem;}
-  header p{font-size:1rem;}
-  #typingArea { min-height:120px; }
-}
+footer{background:#0059b3;color:white;text-align:center;padding:15px}
 </style>
 </head>
+
 <body>
 <div class="wrapper">
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="index.html">Jason Hoyle</a>
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="nav" class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto text-center">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="index.html#projects">Projects</a></li>
-        <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
-        <li class="nav-item"><a class="nav-link active" href="#">Speed Typing Test</a></li>
-      </ul>
-    </div>
-  </div>
+<div class="container-fluid">
+<a class="navbar-brand" href="index.html">Jason Hoyle</a>
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div id="nav" class="collapse navbar-collapse">
+<ul class="navbar-nav ms-auto text-center">
+<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link active" href="#">Speed Typing</a></li>
+</ul>
+</div>
+</div>
 </nav>
 
-<!-- Header with spider animation -->
 <header>
-  <canvas id="headerCanvas"></canvas>
-  <div class="header-content">
-    <h1>Speed Typing Test</h1>
-    <p>Type as many words as you can in 60 seconds!</p>
-  </div>
+<canvas id="headerCanvas"></canvas>
+<div class="header-content">
+<h1>Speed Typing Test</h1>
+<p>Accuracy-weighted WPM with Leaderboard</p>
+</div>
 </header>
 
-<main>
-<section class="card-section">
+<main class="container my-5">
+
 <div class="card">
-  <p id="timer">Time: 60s</p>
-  <p id="wordDisplay"></p>
-  <textarea id="typingArea" placeholder="Start typing here..." disabled></textarea><br>
-  <button class="btn btn-primary" onclick="startTest()">Start Test</button>
-  <p id="wpmResult"></p>
+
+<input id="playerName" class="form-control mb-2"
+placeholder="Enter your name" maxlength="20">
+
+<p id="timer"><strong>Time: 60s</strong></p>
+
+<p id="wordDisplay"></p>
+
+<textarea id="typingArea" disabled></textarea>
+
+<button class="btn btn-primary mt-2" onclick="startTest()">Start Test</button>
+
+<p id="result"></p>
+
+<div class="leaderboard">
+<h5>Leaderboard</h5>
+<ol id="scores"></ol>
 </div>
-</section>
+
+<canvas id="chart" height="120"></canvas>
+
+</div>
 </main>
 
 <footer>
 © 2026 Jason Hoyle — Software Engineer Portfolio
 </footer>
 
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-// Spider animation
-function initSpiderCanvas() {
-  const c = document.getElementById("headerCanvas");
-  const ctx = c.getContext("2d");
-  function resize(){ c.width=c.offsetWidth; c.height=c.offsetHeight; }
-  window.addEventListener("resize",resize);
-  resize();
-  let p=[];
-  for(let i=0;i<50;i++){p.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5),vy:(Math.random()-.5)});}
-  function draw(){
-    ctx.clearRect(0,0,c.width,c.height);
-    for(let i=0;i<p.length;i++){
-      let a=p[i];
-      ctx.beginPath(); ctx.arc(a.x,a.y,3,0,2*Math.PI); ctx.fillStyle="#00bfff"; ctx.fill();
-      a.x+=a.vx; a.y+=a.vy;
-      if(a.x<0||a.x>c.width)a.vx*=-1;
-      if(a.y<0||a.y>c.height)a.vy*=-1;
-      for(let j=i+1;j<p.length;j++){
-        let b=p[j];
-        let d=Math.hypot(a.x-b.x,a.y-b.y);
-        if(d<100){
-          ctx.strokeStyle="rgba(0,191,255,"+(1-d/100)+")";
-          ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
+
+/* Spider animation */
+const c=document.getElementById("headerCanvas");
+const ctx=c.getContext("2d");
+function resize(){c.width=c.offsetWidth;c.height=c.offsetHeight;}
+window.addEventListener("resize",resize);resize();
+let pts=[];
+for(let i=0;i<50;i++)
+pts.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5),vy:(Math.random()-.5)});
+function anim(){
+ctx.clearRect(0,0,c.width,c.height);
+pts.forEach((a,i)=>{
+ctx.beginPath();ctx.arc(a.x,a.y,3,0,6.28);ctx.fillStyle="#00bfff";ctx.fill();
+a.x+=a.vx;a.y+=a.vy;
+if(a.x<0||a.x>c.width)a.vx*=-1;
+if(a.y<0||a.y>c.height)a.vy*=-1;
+for(let j=i+1;j<pts.length;j++){
+let b=pts[j];
+let d=Math.hypot(a.x-b.x,a.y-b.y);
+if(d<100){
+ctx.strokeStyle="rgba(0,191,255,"+(1-d/100)+")";
+ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+}}
+});
+requestAnimationFrame(anim);
 }
-initSpiderCanvas();
+anim();
 
-// Typing test
-const wordList = ["apple","banana","orange","grape","water","computer","keyboard","monitor","javascript","python","function","variable","object","array","class","loop","condition","algorithm","program","server","client","network","database","cloud","design","architecture","software","engineer","debug","compile","syntax","thread","process","stack","queue","data","binary","logic","performance","optimization","security","encryption","api","frontend","backend","framework","library","development","testing","deployment","automation","integration","version","control","git","github","html","css","react","angular","vue","docker","kubernetes","microservices","lambda","golang","performance","scalability","maintainability","agile","scrum","kanban","team","leadership","communication","documentation","code","review","refactor","pattern","singleton","observer","factory","repository","unit","integration","e2e","mock","stub","exception","error","handler","event","listener","promise","callback","async","await","threading","concurrency","parallelism","latency","throughput","request","response","session","token","authentication","authorization","validation","sanitization","input","output","file","system","path","directory","socket","protocol","http","https","tcp","udp","port","service","endpoint"];
+/* Typing Test */
+const words=["cloud","database","async","javascript","server","client","performance","optimization","security","algorithm","thread","latency","frontend","backend","api","docker","kubernetes","react","python","golang"];
 
-let timeLeft = 60;
-let timerInterval;
-let started = false;
+let time=60;
+let timer;
+let target="";
+let started=false;
 
-function generateWords(count=50){
-  let arr=[];
-  for(let i=0;i<count;i++){
-    arr.push(wordList[Math.floor(Math.random()*wordList.length)]);
-  }
-  return arr.join(' ');
+function gen(){
+let arr=[];
+for(let i=0;i<50;i++)
+arr.push(words[Math.floor(Math.random()*words.length)]);
+return arr.join(" ");
 }
 
 function startTest(){
-  if(started) return;
-  started = true;
-  document.getElementById('typingArea').disabled=false;
-  document.getElementById('typingArea').value='';
-  document.getElementById('wpmResult').innerText='';
-  document.getElementById('wordDisplay').innerText = generateWords();
-  document.getElementById('typingArea').focus();
-  timeLeft=60;
-  document.getElementById('timer').innerText = `Time: ${timeLeft}s`;
+if(started)return;
+started=true;
 
-  timerInterval = setInterval(()=>{
-    timeLeft--;
-    document.getElementById('timer').innerText = `Time: ${timeLeft}s`;
-    if(timeLeft<=0){
-      clearInterval(timerInterval);
-      finishTest();
-    }
-  },1000);
+target=gen();
+document.getElementById("wordDisplay").innerText=target;
+
+let ta=document.getElementById("typingArea");
+ta.disabled=false;
+ta.value="";
+ta.focus();
+
+time=60;
+timer=setInterval(()=>{
+time--;
+document.getElementById("timer").innerText=`Time: ${time}s`;
+if(time<=0){clearInterval(timer);finish();}
+},1000);
 }
 
-function finishTest(){
-  const typed = document.getElementById('typingArea').value.trim().split(/\s+/).length;
-  document.getElementById('wpmResult').innerText = `Your typing speed: ${typed} WPM`;
-  document.getElementById('typingArea').disabled=true;
-  started = false;
+/* Accuracy + WPM */
+function finish(){
+let typed=document.getElementById("typingArea").value;
+let tWords=typed.trim().split(/\s+/);
+let oWords=target.split(" ");
+
+let correct=0;
+for(let i=0;i<tWords.length;i++)
+if(tWords[i]===oWords[i])correct++;
+
+let accuracy=(correct/oWords.length)*100;
+let wpm=Math.round(correct);
+
+let name=document.getElementById("playerName").value||"Anonymous";
+
+document.getElementById("result").innerHTML=
+`<strong>${name}</strong> — ${wpm} WPM | ${accuracy.toFixed(1)}% accuracy`;
+
+save(name,wpm);
+show();
+chart();
+
+document.getElementById("typingArea").disabled=true;
+started=false;
 }
+
+/* Save */
+function save(name,score){
+let s=JSON.parse(localStorage.getItem("scores"))||[];
+s.push({name:name,score:score});
+s.sort((a,b)=>b.score-a.score);
+s=s.slice(0,10);
+localStorage.setItem("scores",JSON.stringify(s));
+}
+
+/* Display leaderboard */
+function show(){
+let s=JSON.parse(localStorage.getItem("scores"))||[];
+let list=document.getElementById("scores");
+list.innerHTML="";
+s.forEach((e,i)=>{
+let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
+let li=document.createElement("li");
+li.innerHTML=`${medal} ${e.name}
+<span style="float:right">${e.score} WPM</span>`;
+list.appendChild(li);
+});
+}
+
+/* Chart progress */
+function chart(){
+let data=JSON.parse(localStorage.getItem("scores"))||[];
+let cvs=document.getElementById("chart");
+let cx=cvs.getContext("2d");
+
+cx.clearRect(0,0,cvs.width,cvs.height);
+
+data.forEach((d,i)=>{
+cx.fillRect(i*30,cvs.height-d.score*2,20,d.score*2);
+});
+}
+
+show();
+chart();
+
 </script>
-
 </body>
 </html>
